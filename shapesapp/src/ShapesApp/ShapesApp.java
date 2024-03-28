@@ -39,6 +39,7 @@ public interface ShapesApp {
 	 * @param radius The radius of the circle.
 	 * @pre !has(ID)
 	 */
+
 	void addCircle(String ID, int x, int y, int radius);
 
 	/**

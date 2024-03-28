@@ -5,6 +5,8 @@ package ShapesApp;
  */
 public interface Iterator {
 
+
+
 	/**
 	 * Returns true if the iteration has more elements.
 	 * @return true, if the iteration has more elements

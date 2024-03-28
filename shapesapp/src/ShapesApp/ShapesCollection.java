@@ -54,4 +54,6 @@ public interface ShapesCollection {
 	 */
 	Iterator allShapesIterator(String type);
 
+	int findIndex(String ID);
+
 }

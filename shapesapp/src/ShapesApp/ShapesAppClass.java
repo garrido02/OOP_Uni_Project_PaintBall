@@ -9,7 +9,7 @@ public class ShapesAppClass implements ShapesApp{
 
     @Override
     public boolean hasShape(String ID) {
-        return false;
+        return shapes.hasElem(ID);
     }
 
     @Override
@@ -31,21 +31,30 @@ public class ShapesAppClass implements ShapesApp{
 
     @Override
     public void move(String ID, int x, int y) {
-
+        Shape shape = shapes.getElement(ID);
+        shape.move(x, y);
     }
 
     @Override
     public Shape smallestArea() {
-        return null;
+        Iterator ite = allShapesIterator();
+        Shape minAreaShape = ite.next();
+        while(ite.hasNext()){
+            Shape currentShape = ite.next();
+            if (currentShape.getArea() <= minAreaShape.getArea()){
+                minAreaShape = currentShape;
+            }
+        }
+        return minAreaShape;
     }
 
     @Override
     public Iterator allShapesIterator() {
-        return null;
+        return shapes.allShapesIterator();
     }
 
     @Override
     public Iterator allShapesIterator(String type) {
-        return null;
+        return shapes.allShapesIterator(type);
     }
 }
