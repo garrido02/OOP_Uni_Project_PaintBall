@@ -12,7 +12,7 @@ public class TeamClass implements Team {
         status = true;
         size = 0;
         bunkers = new String[DEFAULT_BUNKER_NUMBER];
-        bunkers[size++] = bunker;
+        conquerBunker(bunker);
     }
 
     @Override
