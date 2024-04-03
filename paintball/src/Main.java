@@ -14,11 +14,11 @@ public class Main {
     private static final String PLAYERS = "PLAYERS";
     private static final String MOVE_DSC = "move - Move a player.";
     private static final String CREATE_DSC = "create - Create a player in a bunker.";
-    private static final String ATTACK_DSC =;
-    private static final String STATUS_DSC =;
-    private static final String MAP_DSC = ;
-    private static final String BUNKERS_DSC = ;
-    private static final String PLAYERS_DSC = ;
+    private static final String ATTACK_DSC = "attack - Attack with all players of the current team.";
+    private static final String STATUS_DSC = "status - List te current state of the game.";
+    private static final String MAP_DSC = "map - List the map of the current team.";
+    private static final String BUNKERS_DSC = "bunkers - List all bunkers of th current team, by the order they were seized.";
+    private static final String PLAYERS_DSC = "players - List all active players of the current team, by the order they were created.";
     private static final String QUIT_DSC = "quit - Exit the application.";
     private static final String HELP_DSC = "help - Display all available commands.";
     private static final String GAME_DSC = "game - Start a new Game.";
@@ -37,7 +37,7 @@ public class Main {
                 System.out.print("> ");
                 command = in.next().toUpperCase();
                 switch (command) {
-                    case GAME -> processGame(in);
+                    case GAME -> game = processGame(in);
                     case HELP -> processHelp(game);
                     case QUIT -> processQuit();
                     default -> processInvalid();
@@ -68,11 +68,11 @@ public class Main {
             System.out.println(GAME_DSC);
             System.out.println(MOVE_DSC);
             System.out.println(CREATE_DSC);
-            System.out.println("attack - Attack with all players of the current team.");
-            System.out.println("status - List te current state of the game.");
-            System.out.println("map - List the map of the current team.");
-            System.out.println("bunkers - List all bunkers of th current team, by the order they were seized.");
-            System.out.println("players - List all active players of the current team, by the order they were created.");
+            System.out.println(ATTACK_DSC);
+            System.out.println(STATUS_DSC);
+            System.out.println(MAP_DSC);
+            System.out.println(BUNKERS_DSC);
+            System.out.println(PLAYERS_DSC);
             System.out.println(HELP_DSC);
             System.out.println(QUIT_DSC);
         } else {
@@ -117,10 +117,11 @@ public class Main {
         int bunkersNr = in.nextInt();
         in.nextLine();
 
-        Game game = new GameClass(width, height);
+        Game game = new GameClass(width, height, teamsNr, bunkersNr);
 
         readBunkerData(game, in, bunkersNr);
         readTeamData(game, in, teamsNr);
+        game.setCurrentTeam();
         return game;
     }
 
@@ -134,8 +135,7 @@ public class Main {
             String bunkerName = in.nextLine().trim();
 
             if (game.isValidPosition(xCoord-1, yCoord-1) && treasury > 0 && !game.hasBunker(bunkerName)){
-                // needs implementation game.addBunker(xCoord, yCoord, treasury, bunkerName);
-                System.out.println("ok");
+                game.addBunker(xCoord-1, yCoord-1, bunkerName, treasury);
             } else {
                 System.out.println("Bunker not created.");
             }
@@ -150,8 +150,7 @@ public class Main {
             String bunkerName = in.nextLine().trim();
 
             if (!game.hasTeam(teamName) && game.hasBunker(bunkerName) && game.isAbandonedBunker(bunkerName)){
-                // needs implementation game.addTeam(teamName, bunkerName);
-                System.out.println("ok");
+                game.addTeam(teamName, bunkerName);
             } else {
                 System.out.println("Team not created.");
             }

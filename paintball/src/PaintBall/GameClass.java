@@ -4,13 +4,12 @@ public class GameClass implements Game {
     private final char FIELD_FREE = '.';
     private final char BUNKER_FREE = 'B';
     private final char BUNKER_OCCUPIED = 'O';
-    private final char PLAYER_CURRENT_TEAM = 'P';
 
     private boolean status;
     private String currentTeam;
     private char[][] map;
-    private Teams teamCollection;
-    private Bunkers bunkerCollection;
+    private TeamsCollection teams;
+    private BunkersCollection bunkers;
 
     // PlaceHolder
     public GameClass(){
@@ -18,9 +17,11 @@ public class GameClass implements Game {
         currentTeam = "placeHolder";
     }
 
-    public GameClass(int width, int height){
+    public GameClass(int width, int height, int teamsNr, int bunkersNr){
         status = true;
         map = new char[width][height];
+        bunkers = new BunkersCollectionClass(bunkersNr);
+        teams = new TeamsCollectionClass(teamsNr);
         fillMap();
     }
 
@@ -52,16 +53,33 @@ public class GameClass implements Game {
 
     @Override
     public boolean hasBunker(String name) {
-        return false;
+        return bunkers.hasBunker(name);
+    }
+
+    @Override
+    public void addBunker(int x, int y, String name, int treasury) {
+        bunkers.addBunker(x, y, name, treasury);
+        map[x][y] = BUNKER_FREE;
+    }
+
+    @Override
+    public void addTeam(String teamName, String bunkerName) {
+        teams.addTeam(teamName, bunkerName);
+        bunkers.conquerBunker(teamName, bunkerName);
     }
 
     @Override
     public boolean hasTeam(String name) {
-        return false;
+        return teams.hasTeam(name);
     }
 
     @Override
     public boolean isAbandonedBunker(String name) {
-        return false;
+        return bunkers.isAbandoned(name);
+    }
+
+    @Override
+    public void setCurrentTeam() {
+       currentTeam = teams.getCurrentTeam();
     }
 }
