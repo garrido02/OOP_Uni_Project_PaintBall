@@ -1,6 +1,8 @@
 package PaintBall;
 
 public class GameClass implements Game {
+	
+	private final int MINIMUM_TEAMS = 2;
     private final char FIELD_FREE = '.';
     private final char BUNKER_FREE = 'B';
     private final char BUNKER_OCCUPIED = 'O';
@@ -17,7 +19,7 @@ public class GameClass implements Game {
         currentTeam = "placeHolder";
     }
 
-    public GameClass(int width, int height, int teamsNr, int bunkersNr){
+    public void initGame(int width, int height, int teamsNr, int bunkersNr){
         status = true;
         map = new char[width][height];
         bunkers = new BunkersCollectionClass(bunkersNr);
@@ -45,10 +47,11 @@ public class GameClass implements Game {
 
     @Override
     public boolean isValidPosition(int x, int y) {
-        boolean freePos = map[x][y] == FIELD_FREE;
-        boolean xValid =  x >= 0 && x <= map[0].length;
-        boolean yValid = y >= 0 && y <= map.length;
-        return freePos && xValid && yValid;
+        return isInside(x,y) && map[x][y] == FIELD_FREE;
+    }
+    
+    private boolean isInside(int a, int b) {
+    	return (a >= 0 && a <= map[0].length) && (b >= 0 && b <= map.length);
     }
 
     @Override
@@ -82,4 +85,9 @@ public class GameClass implements Game {
     public void setCurrentTeam() {
        currentTeam = teams.getCurrentTeam();
     }
+
+	@Override
+	public boolean hasEnoughTeams() {
+		return teams.getSize() >= MINIMUM_TEAMS;
+	}
 }
