@@ -48,4 +48,9 @@ public class TeamsCollectionClass implements TeamsCollection{
             return NOT_FOUND;
         }
     }
+
+	@Override
+	public int getSize() {
+		return size;
+	}
 }
