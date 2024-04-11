@@ -1,0 +1,24 @@
+package PaintBall;
+import DataStructures.*;
+
+public interface Game {
+	
+	boolean getStatus();
+	void initGame(int width, int height, int teamsNr, int bunkersNr);
+    String getCurrentTeam();
+    boolean isValidPosition(int x, int y);
+    boolean hasBunker(String name);
+    boolean hasTeam(String name);
+    boolean isAbandonedBunker(String name);
+    void addBunker(int x, int y, String name, int treasury);
+    void addTeam(String teamName, String bunkerName);
+    void setCurrentTeam();
+    boolean hasEnoughTeams();
+    void cancelGame();
+    int getRows();
+    int getCols();
+    int getBunkersNr();
+    int activeTeamsNr();
+    Iterator<Team> activeTeamsIterator();
+    Iterator<Bunker> bunkerIterator();
+}
