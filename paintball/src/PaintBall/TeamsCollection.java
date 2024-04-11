@@ -5,4 +5,5 @@ public interface TeamsCollection {
     void addTeam(String name, String bunker);
     String getCurrentTeam();
     void changeCurrentTeam();
+    int getSize();
 }
