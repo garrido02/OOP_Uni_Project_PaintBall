@@ -1,7 +1,9 @@
 package PaintBall;
 
 public interface Game {
-    boolean getStatus();
+	
+	boolean getStatus();
+	void initGame(int width, int height, int teamsNr, int bunkersNr);
     String getCurrentTeam();
     boolean isValidPosition(int x, int y);
     boolean hasBunker(String name);
@@ -10,4 +12,5 @@ public interface Game {
     void addBunker(int x, int y, String name, int treasury);
     void addTeam(String teamName, String bunkerName);
     void setCurrentTeam();
+    boolean hasEnoughTeams();
 }
