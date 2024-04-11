@@ -22,6 +22,11 @@ public class Main {
     private static final String QUIT_DSC = "quit - Exit the application.";
     private static final String HELP_DSC = "help - Display all available commands.";
     private static final String GAME_DSC = "game - Start a new Game.";
+    private static final String FATAL_ERROR = "FATAL ERROR: Insufficient number of teams.";
+    private static final String TEAM_NOT_CREATED_MSG = "Team not created.";
+    private static final String BUNKER_NOT_CREATED_MSG = "Bunker not created.";
+    private static final String BYE_MSG = "Bye.";
+    private static final String INVALID_COMMAND_MSG = "Invalid command.";
 
 
     public static void main(String[] args) {
@@ -37,7 +42,7 @@ public class Main {
                 System.out.print("> ");
                 command = in.next().toUpperCase();
                 switch (command) {
-                    case GAME -> game = processGame(in);
+                    case GAME -> processGame(in,game);
                     case HELP -> processHelp(game);
                     case QUIT -> processQuit();
                     default -> processInvalid();
@@ -46,7 +51,7 @@ public class Main {
                 System.out.printf("%s> ", game.getCurrentTeam());
                 command = in.nextLine().toUpperCase();
                 switch(command){
-                    case GAME -> game = processGame(in);
+                    case GAME -> processGame(in,game);
                     case MOVE -> processMove();
                     case CREATE -> processCreate();
                     case ATTACK-> processAttack();
@@ -110,19 +115,18 @@ public class Main {
 
     }
 
-    private static Game processGame(Scanner in){
+    private static void processGame(Scanner in, Game game){
         int width = in.nextInt();
         int height = in.nextInt();
         int teamsNr = in.nextInt();
         int bunkersNr = in.nextInt();
         in.nextLine();
 
-        Game game = new GameClass(width, height, teamsNr, bunkersNr);
+        game.initGame(width, height, teamsNr, bunkersNr);
 
         readBunkerData(game, in, bunkersNr);
         readTeamData(game, in, teamsNr);
         game.setCurrentTeam();
-        return game;
     }
 
     private static void readBunkerData(Game game, Scanner in, int bunkersNr){
@@ -137,14 +141,13 @@ public class Main {
             if (game.isValidPosition(xCoord-1, yCoord-1) && treasury > 0 && !game.hasBunker(bunkerName)){
                 game.addBunker(xCoord-1, yCoord-1, bunkerName, treasury);
             } else {
-                System.out.println("Bunker not created.");
+                System.out.println(BUNKER_NOT_CREATED_MSG);
             }
         }
     }
 
     private static void readTeamData(Game game, Scanner in, int teamsNr){
         System.out.printf("%d teams:\n", teamsNr);
-
         for (int i = 0; i < teamsNr; i++){
             String teamName = in.next();
             String bunkerName = in.nextLine().trim();
@@ -152,17 +155,19 @@ public class Main {
             if (!game.hasTeam(teamName) && game.hasBunker(bunkerName) && game.isAbandonedBunker(bunkerName)){
                 game.addTeam(teamName, bunkerName);
             } else {
-                System.out.println("Team not created.");
+                System.out.println(TEAM_NOT_CREATED_MSG);
             }
+        }
+        if(!game.hasEnoughTeams()) {
+        	System.out.println(FATAL_ERROR);
         }
     }
 
     private static void processQuit(){
-        System.out.println("Bye.");
+        System.out.println(BYE_MSG);
     }
 
     private static void processInvalid(){
-        System.out.println("Invalid command.");
+        System.out.println(INVALID_COMMAND_MSG);
     }
 }
-
