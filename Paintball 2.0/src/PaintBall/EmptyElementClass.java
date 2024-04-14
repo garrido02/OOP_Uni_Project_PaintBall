@@ -3,7 +3,7 @@ package PaintBall;
 public class EmptyElementClass implements MapElement {
 
 	private static final char SYMBOL = '.';
-    private static final String TEAM = "EMPTY_TEAM";
+    private static final Team TEAM = null;
     private int x;
     private int y;
 	
@@ -28,7 +28,7 @@ public class EmptyElementClass implements MapElement {
 	}
 
 	@Override
-	public String getTeamName() {
+	public Team getTeam() {
 		return TEAM;
 	}
 

@@ -3,7 +3,7 @@ package PaintBall;
 abstract class PlayerAbstract implements Player, MapElement {
 
 	private static final char SYMBOL = 'P';
-	private String team;
+	private Team team;
 	private int x;
 	private int y;
 	
@@ -15,7 +15,7 @@ abstract class PlayerAbstract implements Player, MapElement {
 		return y;
 	}
 	
-	public String getTeamName() {
+	public Team getTeam() {
 		return team;
 	}
 

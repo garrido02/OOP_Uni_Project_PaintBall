@@ -4,7 +4,7 @@ import DataStructures.*;
 public interface TeamsCollection {
     boolean hasTeam(String name);
     void addTeam(Team team);
-    String getCurrentTeam();
+    Team getCurrentTeam();
     void changeCurrentTeam();
     int getSize();
     Iterator<Team> iterator();

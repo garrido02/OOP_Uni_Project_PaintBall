@@ -11,10 +11,10 @@ public class MapElementIterator implements Iterator<MapElement>{
     private int rows;
     private int cols;
     private int size;
-    private String team;
+    private Team team;
 
 
-    public MapElementIterator(MapElement[][] elems, String team){
+    public MapElementIterator(MapElement[][] elems, Team team){
         this.elems = elems;
         this.current = 0;
         this.currentRow = 0;
@@ -38,8 +38,7 @@ public class MapElementIterator implements Iterator<MapElement>{
     @Override
     public MapElement next() {
     	MapElement m = elems[currentRow][currentCol++];
-    	//System.out.println(m.getChar());
-    	if(!m.getTeamName().equals(team))
+    	if(m.getTeam() != null && !m.getTeam().equals(team))
     		m = new EmptyElementClass();
     	if(currentCol == this.cols && hasNextRow())
     		nextRow();

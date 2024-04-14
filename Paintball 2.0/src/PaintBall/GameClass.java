@@ -9,7 +9,7 @@ public class GameClass implements Game {
     private final char BUNKER_OCCUPIED = 'O';
 
     private boolean status;
-    private String currentTeam;
+    private Team currentTeam;
     private char[][] map;
     private MapElement[][] mapE;
     private TeamsCollection teams;
@@ -18,7 +18,6 @@ public class GameClass implements Game {
     // PlaceHolder
     public GameClass(){
         status = false;
-        currentTeam = "placeHolder";
     }
 
     public void initGame(int width, int height, int teamsNr, int bunkersNr){
@@ -67,8 +66,8 @@ public class GameClass implements Game {
 
     private void fillMap(){
     	MapElement empty = new EmptyElementClass();
-        for (int i = 0; i < map.length; i++){
-            for (int j = 0; j < map[0].length; j++){
+        for (int i = 0; i < mapE.length; i++){
+            for (int j = 0; j < mapE[0].length; j++){
                 map[i][j] = FIELD_FREE;
                 mapE[i][j] = empty; 
             }
@@ -82,7 +81,7 @@ public class GameClass implements Game {
 
     @Override
     public String getCurrentTeam() {
-        return currentTeam;
+        return currentTeam.getName();
     }
 
     @Override
@@ -111,9 +110,8 @@ public class GameClass implements Game {
     public void addTeam(String teamName, String bunkerName) {
     	Team team = new TeamClass(teamName,bunkerName);
         teams.addTeam(team);
-        bunkers.conquerBunker(teamName, bunkerName);
+        bunkers.conquerBunker(team, bunkerName);
     }
-
 
     @Override
     public boolean hasTeam(String name) {

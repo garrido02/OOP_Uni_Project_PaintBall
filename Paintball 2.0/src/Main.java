@@ -106,7 +106,7 @@ public class Main {
         Iterator<Bunker> bunkerIte = game.bunkerIterator();
         while (bunkerIte.hasNext()){
             Bunker b = bunkerIte.next();
-            System.out.printf("%s (%s)\n", b.getName(), b.getOwner());
+            System.out.printf("%s (%s)\n", b.getName(), b.getTeam().getName());
         }
         
         System.out.printf("%d teams:\n", game.activeTeamsNr());
@@ -121,27 +121,22 @@ public class Main {
             	System.out.printf("%s ", t.getName());
         }
         System.out.println();
-        
-        //
-
     }
 
     private static void processMap(Game game){
     	Iterator<MapElement> mapIte = game.mapIterator();
     	System.out.printf("%d %d\n", game.getRows(), game.getCols());
     	System.out.print("**");
-    	for(int i = 0; i < game.getCols()-1; i++)
+    	for (int i = 1; i < game.getCols(); i++)
     		System.out.printf("%d ",i);
     	System.out.println(game.getCols());
-    	for(int rows = 0; rows < game.getRows(); rows++) {
+    	for (int rows = 0; rows < game.getRows(); rows++) {
     		System.out.printf("%,2d",rows+1);
-    		for(int cols = 0; cols < game.getCols(); cols++) {
+    		for (int cols = 0; cols < game.getCols(); cols++) {
     			System.out.printf(" %s",mapIte.next().getChar());
     		}
     		System.out.println();
-    		
     	}
-    	
     }
 
     private static void processBunker(){

@@ -4,7 +4,8 @@ import DataStructures.*;
 public interface Bunker {
     String getName();
     boolean isAbandoned();
-    void changeOwner(String name);
+    void changeTeam(Team t);
     void incrementTreasury();
-    String getOwner();
+    Team getTeam();
+
 }

@@ -2,10 +2,9 @@ package PaintBall;
 import java.util.Objects;
 
 public class BunkerClass implements Bunker, MapElement {
-    private static final String ABANDONED = "without owner";
     private static final char SYMBOL = 'B';
     private String name;
-    private String teamOwner;
+    private Team team;
     private int x;
     private int y;
     private int treasury;
@@ -14,13 +13,13 @@ public class BunkerClass implements Bunker, MapElement {
         this.x = x;
         this.y = y;
         this.name = name;
-        this.teamOwner = ABANDONED;
+        this.team = null;
         this.treasury = treasury;
     }
 
     @Override
-    public String getOwner() {
-        return this.teamOwner;
+    public Team getTeam() {
+        return this.team;
     }
 
     @Override
@@ -30,12 +29,12 @@ public class BunkerClass implements Bunker, MapElement {
 
     @Override
     public boolean isAbandoned() {
-        return teamOwner.equals(ABANDONED);
+        return team == null;
     }
 
     @Override
-    public void changeOwner(String name) {
-        teamOwner = name;
+    public void changeTeam(Team t) {
+        team = t;
     }
 
     @Override
@@ -52,7 +51,7 @@ public class BunkerClass implements Bunker, MapElement {
             return false;
         }
         BunkerClass other = (BunkerClass) o;
-        return x == other.x && y == other.y && treasury == other.treasury && Objects.equals(name, other.name) && Objects.equals(teamOwner, other.teamOwner);
+        return x == other.x && y == other.y && treasury == other.treasury && Objects.equals(name, other.name) && Objects.equals(team, other.team);
     }
 
 	@Override
@@ -70,8 +69,4 @@ public class BunkerClass implements Bunker, MapElement {
 		return y;
 	}
 
-	@Override
-	public String getTeamName() {
-		return teamOwner;
-	}
 }

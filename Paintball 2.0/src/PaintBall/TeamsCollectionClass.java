@@ -3,12 +3,10 @@ import DataStructures.*;
 
 public class TeamsCollectionClass implements TeamsCollection{
     private static final int NOT_FOUND = -1;
-    private static final String DEFAULT_TEAM = "NONE";
-    private String currentTeamName;
+    private Team currentTeam;
     private Array<Team> teams;
 
     public TeamsCollectionClass(int teamsNr){
-        currentTeamName = DEFAULT_TEAM;
         teams = new ArrayClass<>(teamsNr);
     }
 
@@ -20,7 +18,7 @@ public class TeamsCollectionClass implements TeamsCollection{
     @Override
     public void addTeam(Team team) {
         if (getSize() == 0){
-            currentTeamName = team.getName();
+            currentTeam = team;
         }
         teams.insertLast(team);
     }
@@ -42,8 +40,8 @@ public class TeamsCollectionClass implements TeamsCollection{
     }
 
     @Override
-    public String getCurrentTeam() {
-        return teams.get(findIndexOf(currentTeamName)).getName();
+    public Team getCurrentTeam() {
+        return teams.get(findIndexOf(currentTeam.getName()));
     }
 
     @Override
@@ -55,7 +53,7 @@ public class TeamsCollectionClass implements TeamsCollection{
                 i = 0;
             }
         }
-        currentTeamName = teams.get(i).getName();
+        currentTeam = teams.get(i);
     }
 
     private int findIndexOf(String name){

@@ -30,8 +30,8 @@ public class BunkersCollectionClass implements BunkersCollection{
     }
 
     @Override
-    public void conquerBunker(String teamName, String bunkerName) {
-        bunkers.get(findIndexOf(bunkerName)).changeOwner(teamName);
+    public void conquerBunker(Team team, String bunkerName) {
+        bunkers.get(findIndexOf(bunkerName)).changeTeam(team);
     }
 
     @Override
