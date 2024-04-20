@@ -15,5 +15,9 @@ public class PlayerCollectionClass implements PlayerCollection {
 		players.insertLast(player);
 
 	}
+	
+	public Player get(int i) {
+		return players.get(i);
+	}
 
 }

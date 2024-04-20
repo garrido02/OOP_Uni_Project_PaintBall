@@ -8,13 +8,19 @@ public class TeamClass implements Team {
     private boolean status;
     private String[] bunkers;
     private int size;
+    private PlayerCollection players;
 
     public TeamClass(String name, String bunker){
         this.name = name;
         status = true;
         size = 0;
         bunkers = new String[DEFAULT_BUNKER_NUMBER];
+        players = new PlayerCollectionClass();
         conquerBunker(bunker);
+    }
+    
+    public void addPlayer(Player player) {
+    	players.addPlayer(player);
     }
 
     @Override

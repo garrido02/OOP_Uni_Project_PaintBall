@@ -1,8 +1,10 @@
 package PaintBall;
 
 public interface Team {
-    String getName();
+	
+	String getName();
     void conquerBunker(String name);
     boolean isActive();
     void changeStatus();
+    void addPlayer(Player player);
 }

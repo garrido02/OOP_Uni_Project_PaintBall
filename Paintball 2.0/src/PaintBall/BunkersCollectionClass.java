@@ -38,6 +38,10 @@ public class BunkersCollectionClass implements BunkersCollection{
     public boolean isAbandoned(String bunkerName) {
         return bunkers.get(findIndexOf(bunkerName)).isAbandoned();
     }
+    
+    public boolean haveSpace(String bunkerName) {
+    	return bunkers.get(findIndexOf(bunkerName)).isFree();
+    }
 
     private int findIndexOf(String name){
         int i = 0;
@@ -50,4 +54,15 @@ public class BunkersCollectionClass implements BunkersCollection{
         }
         return NOT_FOUND;
     }
+
+	@Override
+	public boolean createPlayer(String playerType, String bunkerName) {
+		return bunkers.get(findIndexOf(bunkerName)).createPlayer(playerType);
+		
+	}
+
+	@Override
+	public boolean isBunkerFromTeam(String bunkerName, Team team) {
+		return bunkers.get(findIndexOf(bunkerName)).getTeam().equals(team);
+	}
 }

@@ -1,7 +1,8 @@
 package PaintBall;
 
 public interface PlayerCollection {
-	
-	 void addPlayer(Player player);
+
+	Player get(int i);
+	void addPlayer(Player player);
 
 }

@@ -4,6 +4,7 @@ import DataStructures.Iterator;
 
 public class MapElementIterator implements Iterator<MapElement>{
 
+	private static final int ZERO = 0;
 	private MapElement[][] elems;
     private int current;
     private int currentRow;
@@ -16,13 +17,11 @@ public class MapElementIterator implements Iterator<MapElement>{
 
     public MapElementIterator(MapElement[][] elems, Team team){
         this.elems = elems;
-        this.current = 0;
-        this.currentRow = 0;
-        this.currentCol = 0;
-        this.rows = elems[0].length;
+        this.rows = elems[ZERO].length;
         this.cols = elems.length;
-        size = rows*cols;
-        this.team = team;
+        this.size = rows*cols;
+        this.team = team;        
+        init();
         
     }
 	
@@ -31,23 +30,29 @@ public class MapElementIterator implements Iterator<MapElement>{
         return current < size ;
     }
     
+    private void init() {
+    	this.current = ZERO;
+        this.currentRow = ZERO;
+        this.currentCol = ZERO;
+    }
+    
     private boolean hasNextRow() {
     	return currentRow < rows;
     }
 
     @Override
-    public MapElement next() {
+    public MapElement next(){
     	MapElement m = elems[currentRow][currentCol++];
     	if(m.getTeam() != null && !m.getTeam().equals(team))
     		m = new EmptyElementClass();
-    	if(currentCol == this.cols && hasNextRow())
-    		nextRow();
+    	nextRow();
         return m;
     }
 
     private void nextRow(){
-    	currentRow++;
-    	currentCol = 0;
+    	if(currentCol == this.cols && hasNextRow()) {
+    		currentRow++;
+        	currentCol = 0;
+    	}	
     }
-
 }

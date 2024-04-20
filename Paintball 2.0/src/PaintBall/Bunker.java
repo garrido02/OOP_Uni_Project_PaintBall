@@ -1,11 +1,12 @@
 package PaintBall;
 import DataStructures.*;
 
-public interface Bunker {
+public interface Bunker extends MapElement{
     String getName();
     boolean isAbandoned();
     void changeTeam(Team t);
     void incrementTreasury();
-    Team getTeam();
+    boolean createPlayer(String playerType);
+    boolean isFree();
 
 }

@@ -3,10 +3,14 @@ import DataStructures.*;
 
 public class GameClass implements Game {
 	
-	private final int MINIMUM_TEAMS = 2;
-    private final char FIELD_FREE = '.';
-    private final char BUNKER_FREE = 'B';
-    private final char BUNKER_OCCUPIED = 'O';
+	private static final int MINIMUM_TEAMS = 2;
+    private static final char FIELD_FREE = '.';
+    private static final char BUNKER_FREE = 'B';
+    private static final char BUNKER_OCCUPIED = 'O';
+    
+    private static final String player_RED = "RED";
+    private static final String player_BLUE = "BLUE";
+    private static final String player_GREEN = "GREEN";
 
     private boolean status;
     private Team currentTeam;
@@ -28,6 +32,8 @@ public class GameClass implements Game {
         teams = new TeamsCollectionClass(teamsNr);
         fillMap();
     }
+    
+    
 
     @Override
     public int getBunkersNr() {
@@ -103,7 +109,7 @@ public class GameClass implements Game {
         map[x][y] = BUNKER_FREE;
         Bunker bunker = new BunkerClass (x,y,name,treasury);
         bunkers.addBunker(bunker);
-        mapE[x][y] = (MapElement) bunker;
+        mapE[x][y] = bunker;
     }
 
     @Override
@@ -136,4 +142,38 @@ public class GameClass implements Game {
 	public Iterator<MapElement> mapIterator() {
 		return new MapElementIterator(mapE,currentTeam);
 	}
+
+	@Override
+	public boolean addPlayer(String playerType, String bunkerName) {
+			return bunkers.createPlayer(playerType, bunkerName);
+	}
+	
+	public boolean isExistingType(String playerType) {
+		return(playerType.equalsIgnoreCase(player_RED) || 
+				playerType.equalsIgnoreCase(player_BLUE) || 
+				playerType.equalsIgnoreCase(player_GREEN));
+	}
+	
+	public boolean isExistingType2(String playerType) {
+		boolean exists = true;
+		try{
+			PlayerType.valueOf(playerType.toUpperCase());
+		}catch (IllegalArgumentException e) {
+			exists = false;
+		}
+		return exists;
+	}
+
+	@Override
+	public boolean isBunkerFromCurrentTeam(String name) {
+		return bunkers.isBunkerFromTeam(name, currentTeam);
+	}
+
+	@Override
+	public boolean isBunkerFree(String name) {
+		return bunkers.haveSpace(name);
+	}
+	
+	
+	
 }

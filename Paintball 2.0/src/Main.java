@@ -28,6 +28,7 @@ public class Main {
     private static final String BUNKER_NOT_CREATED_MSG = "Bunker not created.";
     private static final String BYE_MSG = "Bye.";
     private static final String INVALID_COMMAND_MSG = "Invalid command.";
+	private static final String NON_EXISTING_BUNKER_MSG = "Non-existent bunker.";
 
 
     public static void main(String[] args) {
@@ -50,11 +51,11 @@ public class Main {
                 }
             } else {
                 System.out.printf("%s> ", game.getCurrentTeam());
-                command = in.nextLine().toUpperCase();
+                command = in.next().toUpperCase();
                 switch(command){
                     case GAME -> processGame(in,game);
                     case MOVE -> processMove();
-                    case CREATE -> processCreate();
+                    case CREATE -> processCreate(in,game);
                     case ATTACK-> processAttack();
                     case STATUS -> processStatus(game);
                     case MAP -> processMap(game);
@@ -92,8 +93,68 @@ public class Main {
 
     }
 
-    private static void processCreate(){
+    private static void processCreate(Scanner in, Game game){
+    	String type = in.next().toUpperCase();
+    	String bunker = in.nextLine().trim();
+    	
+    	
+    	if(game.isExistingType(type)) {
+    		
+    		if(game.hasBunker(bunker)) {
+    			
+    			if(game.isBunkerFromCurrentTeam(bunker)) {
+    				
+    				if(game.isBunkerFree(bunker)) {
+    					
+    					if(game.addPlayer(type, bunker)) {
+    						System.out.printf("%s player created in %s\n",type,bunker);
+    					}
+    					else {
+    						System.out.println("Insufficient coins for recruitment.");
+    					}
+    				}else {
+    					System.out.println("Bunker not free");
+    				}
+    			}else {
+    				System.out.println("Bunker illegally invaded.");
+    			}
+    		}else {
+    			System.out.println(NON_EXISTING_BUNKER_MSG);
+    		}	
+    	}else {
+    		System.out.println("Non-existent player type.");
+    	}
 
+    }
+    
+    private static void processCreate2(Scanner in, Game game){
+    	String type = in.next().toUpperCase();
+    	String bunker = in.nextLine().trim();
+    	
+    	boolean result  = game.isExistingType(type);
+    	
+    	if(!result)
+    		System.out.println("Non-existent player type.");
+    		
+    	if(!(result && game.hasBunker(bunker))) {
+    		System.out.println(NON_EXISTING_BUNKER_MSG);
+    		result = result && game.hasBunker(bunker);
+    	}
+    	
+    	if(!(result && game.isBunkerFromCurrentTeam(bunker))) {
+    		System.out.println("Bunker illegally invaded.");
+    		result = result && game.isBunkerFromCurrentTeam(bunker);
+    	}
+    		
+    	if(!(result && game.isAbandonedBunker(bunker))) {
+    		System.out.println("Bunker not free.");
+    		result = result && game.isAbandonedBunker(bunker);
+    	}
+    		
+    	if(result && game.addPlayer(type, bunker))
+    		System.out.printf("%s player created in %s\n",type,bunker);
+    	else
+    		System.out.println("Insufficient coins for recruitment.");
     }
 
     private static void processAttack(){
@@ -131,7 +192,7 @@ public class Main {
     		System.out.printf("%d ",i);
     	System.out.println(game.getCols());
     	for (int rows = 0; rows < game.getRows(); rows++) {
-    		System.out.printf("%,2d",rows+1);
+    		System.out.printf("%2d",rows+1);
     		for (int cols = 0; cols < game.getCols(); cols++) {
     			System.out.printf(" %s",mapIte.next().getChar());
     		}

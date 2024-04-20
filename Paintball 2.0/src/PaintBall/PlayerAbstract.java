@@ -6,6 +6,13 @@ abstract class PlayerAbstract implements Player, MapElement {
 	private Team team;
 	private int x;
 	private int y;
+	protected int cost;
+	
+	protected PlayerAbstract(int x, int y, Team team) {
+		this.x = x;
+		this.y = y;
+		this.team = team;
+	}
 	
 	public int getX() {
 		return x;
@@ -17,6 +24,14 @@ abstract class PlayerAbstract implements Player, MapElement {
 	
 	public Team getTeam() {
 		return team;
+	}
+	
+	public int cost() {
+		return cost;
+	}
+	
+	public char getChar() {
+		return SYMBOL;
 	}
 
 }

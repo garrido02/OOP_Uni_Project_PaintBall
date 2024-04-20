@@ -3,6 +3,12 @@ package PaintBall;
 public class BluePlayerClass extends PlayerAbstract {
 
 	public static final String TYPE = "BLUE";
+	private static final int COST = 2;
+	
+	public BluePlayerClass(int x, int y, Team team) {
+		super(x, y, team);
+		this.cost = COST;
+	}
 	
 	@Override
 	public void move() {
@@ -10,11 +16,6 @@ public class BluePlayerClass extends PlayerAbstract {
 
 	}
 
-	@Override
-	public char getChar() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 
 }

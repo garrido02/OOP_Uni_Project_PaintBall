@@ -3,7 +3,14 @@ import java.util.Objects;
 
 public class BunkerClass implements Bunker, MapElement {
     private static final char SYMBOL = 'B';
+    private static final char OCCUPIED_SYMBOL = 'O';
+    
+    private static final String player_RED = "RED";
+    private static final String player_BLUE = "BLUE";
+    private static final String player_GREEN = "GREEN";
+    
     private String name;
+    private Player player;
     private Team team;
     private int x;
     private int y;
@@ -20,6 +27,41 @@ public class BunkerClass implements Bunker, MapElement {
     @Override
     public Team getTeam() {
         return this.team;
+    }
+    
+    public boolean createPlayer(String playerType) {
+    	Player tmp_Player = null;
+    	
+    	switch(PlayerType.valueOf(playerType)) {
+
+			case BLUE -> {
+				tmp_Player = new BluePlayerClass(getX(),getY(),team);
+			}
+			case RED -> {
+				tmp_Player = new BluePlayerClass(getX(),getY(),team);
+			}
+			case GREEN -> {
+				tmp_Player = new BluePlayerClass(getX(),getY(),team);
+			}
+		
+    	}	
+    	;
+		return hasEnoughCoins(tmp_Player);
+    }
+    
+    private boolean hasEnoughCoins(Player player) {
+    	boolean created = false;
+    	if(player != null && this.treasury >= player.cost())
+		{
+    		this.player = player;
+        	team.addPlayer(player);
+        	created = true;
+		};   	
+    	return created;
+    }
+    
+    public void playerOut() {
+    	player = null;
     }
 
     @Override
@@ -56,7 +98,10 @@ public class BunkerClass implements Bunker, MapElement {
 
 	@Override
 	public char getChar() {
-		return SYMBOL;
+		char symbol = OCCUPIED_SYMBOL;		
+		if(player == null)
+			symbol = SYMBOL;	
+		return symbol;
 	}
 
 	@Override
@@ -67,6 +112,11 @@ public class BunkerClass implements Bunker, MapElement {
 	@Override
 	public int getY() {
 		return y;
+	}
+
+	@Override
+	public boolean isFree() {
+		return player == null;
 	}
 
 }
