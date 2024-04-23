@@ -1,11 +1,11 @@
 package PaintBall;
 
-public class BluePlayerClass extends PlayerAbstract {
+public class GreenPlayerClass extends PlayerAbstract {
 
-	public static final String TYPE = "BLUE";
+	public static final String TYPE = "GREEN";
 	private static final int COST = 2;
 	
-	public BluePlayerClass(int x, int y, Team team) {
+	public GreenPlayerClass(int x, int y, Team team) {
 		super(x, y, team);
 		this.cost = COST;
 		this.type = TYPE;

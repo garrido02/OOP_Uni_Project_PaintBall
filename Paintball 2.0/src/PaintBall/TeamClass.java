@@ -2,6 +2,8 @@ package PaintBall;
 
 import java.util.Objects;
 
+import DataStructures.Iterator;
+
 public class TeamClass implements Team {
     private static final int DEFAULT_BUNKER_NUMBER = 1;
     private String name;
@@ -50,4 +52,13 @@ public class TeamClass implements Team {
         TeamClass teamClass = (TeamClass) o;
         return Objects.equals(name, teamClass.name);
     }
+    
+    public Iterator<Player> iterator(){
+    	return players.iterator();
+    }
+
+	@Override
+	public int numberPlayer() {
+		return players.getSize();
+	}
 }

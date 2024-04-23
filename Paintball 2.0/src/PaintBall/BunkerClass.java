@@ -38,10 +38,10 @@ public class BunkerClass implements Bunker, MapElement {
 				tmp_Player = new BluePlayerClass(getX(),getY(),team);
 			}
 			case RED -> {
-				tmp_Player = new BluePlayerClass(getX(),getY(),team);
+				tmp_Player = new RedPlayerClass(getX(),getY(),team);
 			}
 			case GREEN -> {
-				tmp_Player = new BluePlayerClass(getX(),getY(),team);
+				tmp_Player = new GreenPlayerClass(getX(),getY(),team);
 			}
 		
     	}	

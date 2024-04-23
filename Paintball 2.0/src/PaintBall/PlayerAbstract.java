@@ -7,6 +7,7 @@ abstract class PlayerAbstract implements Player, MapElement {
 	private int x;
 	private int y;
 	protected int cost;
+	protected String type;
 	
 	protected PlayerAbstract(int x, int y, Team team) {
 		this.x = x;
@@ -33,5 +34,10 @@ abstract class PlayerAbstract implements Player, MapElement {
 	public char getChar() {
 		return SYMBOL;
 	}
+	
+	public String getType() {
+		return type.toLowerCase();
+	}
+	
 
 }

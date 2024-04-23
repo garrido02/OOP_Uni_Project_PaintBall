@@ -145,19 +145,25 @@ public class GameClass implements Game {
 
 	@Override
 	public boolean addPlayer(String playerType, String bunkerName) {
-			return bunkers.createPlayer(playerType, bunkerName);
+			boolean result = false;
+			if(bunkers.createPlayer(playerType, bunkerName)) {
+				teams.changeCurrentTeam();
+				this.setCurrentTeam();
+				result = true;
+			}
+			return result;
 	}
 	
-	public boolean isExistingType(String playerType) {
+	/*public boolean isExistingType(String playerType) {
 		return(playerType.equalsIgnoreCase(player_RED) || 
 				playerType.equalsIgnoreCase(player_BLUE) || 
 				playerType.equalsIgnoreCase(player_GREEN));
-	}
+	}*/
 	
-	public boolean isExistingType2(String playerType) {
+	public boolean isExistingType(String playerType) {
 		boolean exists = true;
 		try{
-			PlayerType.valueOf(playerType.toUpperCase());
+			PlayerType.valueOf(playerType);
 		}catch (IllegalArgumentException e) {
 			exists = false;
 		}
@@ -174,6 +180,13 @@ public class GameClass implements Game {
 		return bunkers.haveSpace(name);
 	}
 	
+	public Iterator<Player> playerIterator(){
+		return currentTeam.iterator();
+	}
+	
+	public int getPlayersNumber() {
+		return currentTeam.numberPlayer();
+	}
 	
 	
 }

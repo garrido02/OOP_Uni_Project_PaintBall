@@ -26,6 +26,9 @@ public interface Game {
     int getCols();
     int getBunkersNr();
     int activeTeamsNr();
+    int getPlayersNumber();
+    
+    Iterator<Player> playerIterator();
     Iterator<Team> activeTeamsIterator();
     Iterator<Bunker> bunkerIterator();
     Iterator<MapElement> mapIterator();

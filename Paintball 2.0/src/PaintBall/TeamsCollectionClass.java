@@ -49,7 +49,7 @@ public class TeamsCollectionClass implements TeamsCollection{
         int i = 0;
         while (i < teams.size() && !teams.get(i).isActive()){
             i++;
-            if (i >= teams.size()){
+            if (i > teams.size()){
                 i = 0;
             }
         }

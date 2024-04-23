@@ -29,6 +29,11 @@ public class Main {
     private static final String BYE_MSG = "Bye.";
     private static final String INVALID_COMMAND_MSG = "Invalid command.";
 	private static final String NON_EXISTING_BUNKER_MSG = "Non-existent bunker.";
+	private static final String NON_EXISTING_PLAYERTYPE_MSG = "Non-existent player type.";
+	private static final String ILLEGALLY_BUNKER_MSG = "Bunker illegally invaded.";
+	private static final String BUNKER_NO_FREE_MSG = "Bunker not free.";
+	private static final String PLAYER_CREATED_MSG = "%s player created in %s\n";
+	private static final String INSUFFICIENT_COINS_MSG = "Insufficient coins for recruitment.";
 
 
     public static void main(String[] args) {
@@ -60,7 +65,7 @@ public class Main {
                     case STATUS -> processStatus(game);
                     case MAP -> processMap(game);
                     case BUNKERS -> processBunker();
-                    case PLAYERS -> processPlayers();
+                    case PLAYERS -> processPlayers(game);
                     case HELP -> processHelp(game);
                     case QUIT -> processQuit();
                     default -> processInvalid();
@@ -93,7 +98,7 @@ public class Main {
 
     }
 
-    private static void processCreate(Scanner in, Game game){
+    /**private static void processCreate(Scanner in, Game game){
     	String type = in.next().toUpperCase();
     	String bunker = in.nextLine().trim();
     	
@@ -125,36 +130,36 @@ public class Main {
     		System.out.println("Non-existent player type.");
     	}
 
-    }
+    }*/
     
-    private static void processCreate2(Scanner in, Game game){
+    private static void processCreate(Scanner in, Game game){
     	String type = in.next().toUpperCase();
     	String bunker = in.nextLine().trim();
     	
     	boolean result  = game.isExistingType(type);
     	
     	if(!result)
-    		System.out.println("Non-existent player type.");
+    		System.out.println(NON_EXISTING_PLAYERTYPE_MSG);
     		
-    	if(!(result && game.hasBunker(bunker))) {
+    	if(result && !game.hasBunker(bunker)) {
     		System.out.println(NON_EXISTING_BUNKER_MSG);
     		result = result && game.hasBunker(bunker);
     	}
     	
-    	if(!(result && game.isBunkerFromCurrentTeam(bunker))) {
-    		System.out.println("Bunker illegally invaded.");
+    	if(result && !game.isBunkerFromCurrentTeam(bunker)) {
+    		System.out.println(ILLEGALLY_BUNKER_MSG);
     		result = result && game.isBunkerFromCurrentTeam(bunker);
     	}
     		
-    	if(!(result && game.isAbandonedBunker(bunker))) {
-    		System.out.println("Bunker not free.");
-    		result = result && game.isAbandonedBunker(bunker);
+    	if(result && !game.isBunkerFree(bunker)) {
+    		System.out.println(BUNKER_NO_FREE_MSG);
+    		result = result && game.isBunkerFree(bunker);
     	}
     		
     	if(result && game.addPlayer(type, bunker))
-    		System.out.printf("%s player created in %s\n",type,bunker);
-    	else
-    		System.out.println("Insufficient coins for recruitment.");
+    		System.out.printf(PLAYER_CREATED_MSG,type,bunker);
+    	else if(result)
+    		System.out.println(INSUFFICIENT_COINS_MSG);
     }
 
     private static void processAttack(){
@@ -204,8 +209,17 @@ public class Main {
 
     }
 
-    private static void processPlayers(){
-
+    private static void processPlayers(Game game){
+    	if(game.getPlayersNumber() == 0) {
+    		System.out.println("Without players."); 
+    	}else {
+    		System.out.printf("%d players:\n", game.getPlayersNumber());
+    		Iterator<Player> playerIte = game.playerIterator();
+    		while (playerIte.hasNext()){
+    			Player p = playerIte.next();
+    			System.out.printf("%s player in position (%d, %d)\n", p.getType(), p.getX(), p.getY());
+    		}
+    	}
     }
 
     private static void processGame(Scanner in, Game game){
