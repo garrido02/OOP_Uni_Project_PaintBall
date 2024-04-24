@@ -1,6 +1,12 @@
+/**
+ * @author Francisco Correia & Sérgio Garrido
+ */
+
+
 import java.util.Scanner;
 import PaintBall.*;
 import DataStructures.*;
+
 
 public class Main {
     private static final String QUIT = "QUIT";
@@ -40,6 +46,10 @@ public class Main {
         startApp();
     }
 
+    /**
+       Starts the paintball app. Allows the interpretation of multiple commands. The list of available commands depends on
+     whether a game is running or not.
+     */
     private static void startApp() {
         Scanner in = new Scanner(System.in);
         Game game = new GameClass();
@@ -59,7 +69,7 @@ public class Main {
                 command = in.next().toUpperCase();
                 switch(command){
                     case GAME -> processGame(in,game);
-                    case MOVE -> processMove();
+                    case MOVE -> processMove(game);
                     case CREATE -> processCreate(in,game);
                     case ATTACK-> processAttack();
                     case STATUS -> processStatus(game);
@@ -75,6 +85,10 @@ public class Main {
         in.close();
     }
 
+    /**
+     * Lists all the available commands depending on whether a game is running or not.
+     * @param game Object game which allows access to all game functionalities
+     */
     private static void processHelp(Game game){
         if (game.getStatus()){
             System.out.println(GAME_DSC);
@@ -94,10 +108,19 @@ public class Main {
         }
     }
 
-    private static void processMove(){
+    /**
+     * Moves a player of the current team.
+     * @param game Object game which allows access to all game functionalities
+     */
+    private static void processMove(Game game){
 
     }
 
+    /**
+     * Creates a player for the current team inside a specified bunker owned by that team.
+     * @param in Scanner, allowing to access user input
+     * @param game Object game which allows access to all game functionalities
+     */
     private static void processCreate(Scanner in, Game game){
     	String type = in.next().toUpperCase();
     	String bunker = in.nextLine().trim();
@@ -116,10 +139,15 @@ public class Main {
     		System.out.printf(PLAYER_CREATED_MSG,type,bunker);
     }
 
+
     private static void processAttack(){
 
     }
 
+    /**
+     * Returns the current game status, returning information such as map size, number of bunkers and their name and which team owns that bunker.
+     * @param game Object game which allows access to all game functionalities
+     */
     private static void processStatus(Game game){
         System.out.printf("%d %d\n", game.getRows(), game.getCols());
         System.out.printf("%d bunkers:\n", game.getBunkersNr());
@@ -143,6 +171,10 @@ public class Main {
         System.out.println();
     }
 
+    /**
+     * Returns the current map of the game, with all current team's bunkers and players.
+     * @param game Object game which allows access to all game functionalities
+     */
     private static void processMap(Game game){
     	Iterator<MapElement> mapIte = game.mapIterator();
     	System.out.printf("%d %d\n", game.getCols(), game.getRows());
@@ -159,6 +191,10 @@ public class Main {
     	}
     }
 
+    /**
+     * Returns the information of all the current team's bunkers.
+     * @param game Object game which allows access to all game functionalities
+     */
     private static void processBunker(Game game){
         Iterator<Bunker> ite = game.currentTeamBunkerIterator();
         if (!ite.hasNext()){
@@ -172,6 +208,10 @@ public class Main {
         }
     }
 
+    /**
+     * Returns the information of all the current team's players.
+     * @param game Object game which allows access to all game functionalities
+     */
     private static void processPlayers(Game game){
     	if(game.getCurrentTeamPlayersNumber() == 0) {
     		System.out.println("Without players."); 
@@ -185,6 +225,11 @@ public class Main {
     	}
     }
 
+    /**
+     * Processes all the new game information, creating a new game.
+     * @param in Scanner, allowing to access user input
+     * @param game Object game which allows access to all game functionalities
+     */
     private static void processGame(Scanner in, Game game){
         int width = in.nextInt();
         int height = in.nextInt();
@@ -198,6 +243,12 @@ public class Main {
         readTeamData(game, in, teamsNr);
     }
 
+    /**
+     * Reads the user's input for all the information regarding the bunkers to be created after validation.
+     * @param game Object game which allows access to all game functionalities
+     * @param in Scanner, allowing to access user input
+     * @param bunkersNr The number of bunkers to be created
+     */
     private static void readBunkerData(Game game, Scanner in, int bunkersNr){
         System.out.printf("%d bunkers:\n", bunkersNr);
 
@@ -215,6 +266,12 @@ public class Main {
         }
     }
 
+    /**
+     * Reads the user's input for all the information regarding the teams to be created after validation.
+     * @param game Object game which allows access to all game functionalities
+     * @param in Scanner, allowing to access user input
+     * @param teamsNr The number of bunkers to be created
+     */
     private static void readTeamData(Game game, Scanner in, int teamsNr){
         System.out.printf("%d teams:\n", teamsNr);
         for (int i = 0; i < teamsNr; i++){
@@ -233,10 +290,16 @@ public class Main {
         }
     }
 
+    /**
+     * Quits the application.
+     */
     private static void processQuit(){
         System.out.println(BYE_MSG);
     }
 
+    /**
+     * Warns the user of an invalid command usage.
+     */
     private static void processInvalid(){
         System.out.println(INVALID_COMMAND_MSG);
     }
