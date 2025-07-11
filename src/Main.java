@@ -73,7 +73,7 @@ public class Main {
                     case GAME -> processGame(in,game);
                     case MOVE -> processMove(game, in);
                     case CREATE -> processCreate(in,game);
-                    case ATTACK-> processAttack();
+                    case ATTACK-> processAttack(game);
                     case STATUS -> processStatus(game);
                     case MAP -> processMap(game);
                     case BUNKERS -> processBunker(game);
@@ -122,31 +122,34 @@ public class Main {
         while(ite.hasNext()){
             Move m = ite.next();
             switch(m.getOutput()){
-                case SUCCESS -> System.out.printf("%s in position (%d, %d)\n", m.playerType(), m.getX()+1, m.getY()+1);
+                case SUCCESS -> System.out.printf("%s player in position (%d, %d)\n", m.playerType(), m.getX()+1, m.getY()+1);
                 case INVALID_POSITION -> System.out.println("Invalid position.");
                 case INVALID_DIRECTION -> System.out.println("Invalid direction.");
                 case INVALID_MOVE -> System.out.println("Invalid move.");
                 case NO_PLAYER -> System.out.println("No player in that position.");
-                case OFF_MAP -> System.out.println("Trying to move off map.");
+                case OFF_MAP -> System.out.println("Trying to move off the map.");
                 case CANNOT_MOVE -> System.out.println("Position occupied.");
                 case WON_FIGHT -> {
                     System.out.println("Won the fight.");
-                    System.out.printf("%s in position (%d, %d)\n", m.playerType(), m.getX()+1, m.getY()+1);
+                    System.out.printf("%s player in position (%d, %d)\n", m.playerType(), m.getX()+1, m.getY()+1);
                 }
                 case BUNKER_SEIZED -> {
                     System.out.println("Bunker seized.");
-                    System.out.printf("%s in position (%d, %d)\n", m.playerType(), m.getX()+1, m.getY()+1);
+                    System.out.printf("%s player in position (%d, %d)\n", m.playerType(), m.getX()+1, m.getY()+1);
                 }
                 case PLAYER_ELIMINATED -> {
                     System.out.println("Player eliminated.");
                 }
                 case WON_FIGHT_AND_BUNKER_SEIZED -> {
                     System.out.println("Won the fight and bunker seized.");
-                    System.out.printf("%s in position (%d, %d)\n", m.playerType(), m.getX()+1, m.getY()+1);
+                    System.out.printf("%s player in position (%d, %d)\n", m.playerType(), m.getX()+1, m.getY()+1);
                 }
             }
         }
-        game.nextTurn();
+        if (game.isGameOver()){
+            System.out.printf("Winner is %s.\n", game.getWinner());
+        }else
+        	game.nextTurn();
     }
 
     /**
@@ -176,8 +179,16 @@ public class Main {
     }
 
 
-    private static void processAttack(){
-
+    private static void processAttack(Game game){
+        if (game.attack()){
+            processMap(game);
+            game.nextTurn();
+        } else {
+            System.out.println("All players eliminated.");
+        }
+        if (game.isGameOver()){
+            System.out.printf("Winner is %s.\n", game.getWinner());
+        }
     }
 
     /**

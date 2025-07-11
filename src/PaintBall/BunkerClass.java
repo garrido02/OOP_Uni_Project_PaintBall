@@ -1,9 +1,16 @@
+/**
+ * @author Francisco Correia & Sérgio Garrido
+ */
+
+
 package PaintBall;
 import java.util.Objects;
 
+/**
+ * Class Bunker responsible for implementing the Bunker & MapElement interfaces.
+ */
 public class BunkerClass implements Bunker, MapElement {
-	
-	private static final String NO_TEAM = "without owner";
+    private static final String NO_TEAM = "without owner";
     private static final char SYMBOL = 'B';
     private static final char OCCUPIED_SYMBOL = 'O';
     
@@ -18,6 +25,14 @@ public class BunkerClass implements Bunker, MapElement {
     private int y;
     private int treasury;
 
+
+    /**
+     * Constructor.
+     * @param x the horizontal position
+     * @param y the vertical position
+     * @param name the name of the bunker
+     * @param treasury the initial amount of coins of the bunker
+     */
     public BunkerClass(int x, int y, String name, int treasury){
         this.x = x;
         this.y = y;
@@ -30,9 +45,7 @@ public class BunkerClass implements Bunker, MapElement {
     public Team getTeam() {
         return this.team;
     }
-    
-    
-    
+
     public boolean createPlayer(String playerType) {
     	Player tmp_Player = null;
     	
@@ -51,7 +64,12 @@ public class BunkerClass implements Bunker, MapElement {
     	}
         return hasEnoughCoins(tmp_Player);
     }
-    
+
+    /**
+     * Checks if the bunker has enough coins to create a player of a specific type.
+     * @param player The player to be created
+     * @return true if the bunker has enough coins for the creation. Otherwise, false.
+     */
     private boolean hasEnoughCoins(Player player) {
     	boolean created = false;
     	if(player != null && this.treasury >= player.cost())
@@ -72,6 +90,11 @@ public class BunkerClass implements Bunker, MapElement {
     @Override
     public void playerIn(Player player){
         this.player = player;
+    }
+
+    @Override
+    public Player getPlayer() {
+        return player;
     }
 
     @Override

@@ -23,6 +23,12 @@ public class TeamClass implements Team {
     public void addPlayer(Player player) {
     	players.insertLast(player);
     }
+    
+    public void removeBunker(Bunker bunker) {
+        bunkers.removeAt(bunkers.searchIndexOf(bunker));
+        isEliminated();
+    }
+    
 
     @Override
     public String getName() {
@@ -69,5 +75,27 @@ public class TeamClass implements Team {
     @Override
     public int numberBunkers() {
         return bunkers.size();
+    }
+
+    @Override
+    public void attack() {
+        Iterator<Player> ite = players.iterator();
+        while (ite.hasNext()){
+            Player p = ite.next();
+
+            //p.attack(Object e);
+        }
+    }
+
+    @Override
+    public void removePlayer(Player player) {
+        players.removeAt(players.searchIndexOf(player));
+        isEliminated();
+    }
+
+    private void isEliminated(){
+        if (players.size() == 0 && bunkers.size() == 0){
+            status = false;
+        }
     }
 }

@@ -7,15 +7,23 @@ abstract class PlayerAbstract implements Player, MapElement {
 	private Team team;
 	private int x;
 	private int y;
+	protected int possibleMoves;
 	protected int cost;
 	protected String type;
 	protected Move[] movements;
 	protected int size;
+	protected boolean isAlive;
+
 	
 	protected PlayerAbstract(int x, int y, Team team) {
 		this.x = x;
 		this.y = y;
 		this.team = team;
+		this.isAlive = true;
+	}
+	
+	public int getPossibleMoves() {
+		return possibleMoves;
 	}
 	
 	public int getX() {
@@ -54,12 +62,18 @@ abstract class PlayerAbstract implements Player, MapElement {
 		return new MoveClass(this, MoveOutput.SUCCESS);
 	}
 
-	@Override
-	public boolean attack(MapElement element) {
-		return false;
-	}
 
 	public Iterator<Move> iterator(){
 		return new ArrayIteratorClass<Move>(movements,size);
+	}
+
+	@Override
+	public boolean isAlive() {
+		return isAlive;
+	}
+
+	@Override
+	public void eliminate() {
+		isAlive = false;
 	}
 }

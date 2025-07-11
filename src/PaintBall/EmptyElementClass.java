@@ -1,13 +1,26 @@
+/**
+ * @author Francisco Correia & Sérgio Garrido
+ */
+
+
 package PaintBall;
 
+
+/**
+ * Class EmptyElement which implements the MapElement interface.
+ */
 public class EmptyElementClass implements MapElement {
 
 	private static final char SYMBOL = '.';
     private static final Team TEAM = null;
     private int x;
     private int y;
-	
-    public EmptyElementClass() {
+
+
+	/**
+	 * Constructor
+	 */
+	public EmptyElementClass() {
     	this.x = 0;
     	this.y = 0;
     }
